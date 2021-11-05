@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CN</title>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    </head>
+    <body>
+        
+        <div id="app">
+            
+            Nombre <input v-model="name" >
+            <hr>
+            <br>
+            Desarrollo de la CN es: 
+            <textarea v-model="desarrollo" cols="50" rows="30">
+            </textarea>
+            <hr>
+            <hr>
+            <br>
+            <br>
+            <div>
+                {{name}}
+            </div>
+            <div>
+                {{ desarrollo }}
+            </div>
+            
+            <div v-if="isConnected">
+            CONNECTED
+            </div>
+        </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                name: '',
+                desarrollo: '',
+                isConnected: false,
+                socketMessage: ''
+            },
+	    
+            sockets: {
+    connect() {
+      // Fired when the socket connects.
+      this.isConnected = true;
+    },
+
+    disconnect() {
+      this.isConnected = false;
+    },
+            mounted() {
+                if (localStorage.name) {
+                    this.name = localStorage.name;
+                }
+                if (localStorage.desarrollo) {
+                    this.desarrollo = localStorage.desarrollo;
+                }
+            },
+            watch: {
+                name(newName) {
+                localStorage.name = newName;
+                },
+                desarrollo(newDesarrollo) {
+                localStorage.desarrollo = newDesarrollo;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
